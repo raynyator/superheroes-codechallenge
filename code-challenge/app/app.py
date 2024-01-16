@@ -18,6 +18,20 @@ db.init_app(app)
 def home():
     return 'My heroes app'
 
+@app.route('/heroes', methods=['GET'])
+def get_all_heroes():
+    heroes = Hero.query.all()
+    heroes_data = [
+        {
+            'id': hero.id,
+            'name': hero.name,
+            'super_name': hero.super_name,
+            'powers': [{'id': hero_power.power.id, 'name': hero_power.power.name, 'description': hero_power.power.description, 'strength': hero_power.strength} for hero_power in hero.powers]
+        } for hero in heroes
+    ]
+    response = make_response(jsonify(heroes_data), 200)
+    return response
+
 @app.route('/heroes/<int:hero_id>', methods=['GET'])
 def get_hero(hero_id):
     hero = Hero.query.get(hero_id)
