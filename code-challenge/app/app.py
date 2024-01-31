@@ -2,6 +2,7 @@ from os import SEEK_DATA
 from flask import Flask, make_response, jsonify, request
 from flask_migrate import Migrate
 
+
 from models import HeroPower, Power, db, Hero
 
 app = Flask(__name__)
